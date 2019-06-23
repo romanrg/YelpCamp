@@ -2,6 +2,7 @@ let express      =    require('express'),
     app          =    express(),
     bodyParser   =    require('body-parser'),
     Campground   =    require('./models/campground'),
+    Comment      =    require('./models/comment'),
     mongoose     =    require('mongoose'),
     seedDB       =    require('./seeds');
 
@@ -25,7 +26,7 @@ app.get('/index', (req, res) => {
         if(err) {
             console.log(err);
         } else {
-            res.render('index', {campgrounds : camps});
+            res.render('campgrounds/index', {campgrounds : camps});
         }
     });  
 });
@@ -47,7 +48,7 @@ app.post('/index', (req, res) => {
 
 //NEW - show form to create new camp
 app.get('/index/new', (req, res) => {
-    res.render("new");
+    res.render("campgrounds/new");
 });
 
 //SHOW - shows more info about one camp 
@@ -56,9 +57,42 @@ app.get('/index/:id', (req, res) => {
         if (err) {
             console.log(err);
         } else {            
-            res.render('show', {camp: foundCamp});
+            res.render('campgrounds/show', {camp: foundCamp});
         }
     });   
+});
+
+//==============================
+//Comments ROUTES
+//==============================
+
+app.get("/index/:id/comments/new", (req, res) => {
+    Campground.findById(req.params.id, (err, camp) => {
+        if(err){
+            console.log(err)
+        } else {
+            res.render("comments/new", {camp:camp});
+        }
+    });    
+});
+
+app.post("/index/:id/comments", (req, res) => {
+    Campground.findById(req.params.id, (err, foundCamp) => {
+        if(err) {
+            console.log(err);
+            res.redirect("/index");
+        } else {
+            Comment.create(req.body.comment, (err, comment)=>{
+                if(err) {
+                    console.log(err);
+                } else {
+                    foundCamp.comments.push(comment);
+                    foundCamp.save();
+                    res.redirect(`/index/${foundCamp._id}`);
+                }
+            });
+        }
+    })
 });
 
 
