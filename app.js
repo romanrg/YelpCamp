@@ -99,5 +99,5 @@ app.post("/index/:id/comments", (req, res) => {
 
 
 app.listen(3000, ()=>{
-    console.log("server start");
+    console.log("Server started");
 });
