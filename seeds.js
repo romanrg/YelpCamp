@@ -1,6 +1,7 @@
 let mongoose     =    require("mongoose");
 let Campground   =    require('./models/campground');
 let Comment      =    require('./models/comment');
+let User         =    require('./models/user');
 let data         =    [
     {
         name: "Oak's Heart",
@@ -26,8 +27,17 @@ function seedDB() {
     Campground.remove({}, (e) => {
         if(e) {
             console.log(e);
-        }
-        console.log("removed camps");    
+        }            
+    });
+    Comment.remove({}, (e) => {
+        if(e) {
+            console.log(e);
+        }            
+    });
+    User.remove({}, (e) => {
+        if(e) {
+            console.log(e);
+        }            
     });
 
     //add a few camp 
@@ -36,7 +46,7 @@ function seedDB() {
             if (e) {
                 console.log(e);
             }
-            console.log("added a camp");
+            
             //create a comments
             Comment.create(
                 {
@@ -47,8 +57,7 @@ function seedDB() {
                         console.log(e);
                     }
                     camp.comments.push(comment);
-                    camp.save();
-                    console.log("Create new comment");
+                    camp.save();                    
                 });
         });
     });
