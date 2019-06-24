@@ -17,6 +17,12 @@
                     <h4><a><%= camp.name %></a></h4>
                     <p><%= camp.description %></p>
                     <p><em>Submitted By: <%= camp.author.username%></em></p>
+                    <% if(currentUser && camp.author.id.equals(currentUser._id)){%>
+                        <a class="btn btn-warning" href="/index/<%= camp._id%>/edit">Edit</a>
+                        <form id="delete-form" action="/index/<%=camp._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    <% } %>
                 </div>
             </div>
             <div class="well">
