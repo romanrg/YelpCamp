@@ -29,6 +29,7 @@ function seedDB() {
             console.log(e);
         }            
     });
+    
     Comment.remove({}, (e) => {
         if(e) {
             console.log(e);
@@ -60,6 +61,7 @@ function seedDB() {
                     camp.save();                    
                 });
         });
+    
     });
     
     // add a few comments
